@@ -1,0 +1,257 @@
+// =============================================================
+// FitTrack Prisma schema (MongoDB)
+// -------------------------------------------------------------
+// MongoDB does not use SQL migrations. After editing this file run:
+//   npx prisma generate   -> regenerates the Prisma Client
+//   npx prisma db push    -> creates collections + indexes in MongoDB
+// Every id is a MongoDB ObjectId, stored in the "_id" field.
+// =============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- Enums (fixed lists of allowed values) ----------
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum ActivityLevel {
+  SEDENTARY
+  LIGHT
+  MODERATE
+  ACTIVE
+  VERY_ACTIVE
+}
+
+// Used both for the user's main goal and for Goal.goalType
+enum FitnessGoal {
+  LOSE_WEIGHT
+  GAIN_MUSCLE
+  MAINTAIN_WEIGHT
+  IMPROVE_ENDURANCE
+  INCREASE_STRENGTH
+}
+
+enum WorkoutType {
+  STRENGTH
+  CARDIO
+  HIIT
+  FLEXIBILITY
+  SPORTS
+  OTHER
+}
+
+enum MuscleGroup {
+  CHEST
+  BACK
+  LEGS
+  SHOULDERS
+  ARMS
+  CORE
+  CARDIO
+  FULL_BODY
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  EXPERT
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}
+
+enum GoalStatus {
+  ACTIVE
+  COMPLETED
+  PAUSED
+}
+
+// ---------- Models ----------
+
+// One registered person. Owns all of their fitness records.
+model User {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  email         String        @unique
+  password      String // bcrypt hash, never the plain password
+  age           Int
+  gender        Gender
+  heightCm      Float
+  weightKg      Float // kept equal to the latest Progress.weight
+  activityLevel ActivityLevel
+  fitnessGoal   FitnessGoal
+  // true only for the demo account created by the seed script,
+  // so sample data can be removed without touching real users
+  isSample      Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  workouts     Workout[]
+  meals        Meal[]
+  progress     Progress[]
+  goals        Goal[]
+  achievements UserAchievement[]
+
+  @@map("users")
+}
+
+// A training session (planned or completed)
+model Workout {
+  id             String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String      @db.ObjectId
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name           String
+  type           WorkoutType
+  durationMin    Int
+  date           DateTime // stored as midnight UTC of the chosen calendar day
+  caloriesBurned Int         @default(0)
+  notes          String?
+  completed      Boolean     @default(false)
+  completedAt    DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  exercises WorkoutExercise[]
+
+  @@index([userId, date])
+  @@map("workouts")
+}
+
+// Shared exercise catalogue (reference data, seeded once).
+// Also used as the offline fallback for the exercise library.
+model Exercise {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  name         String      @unique
+  muscleGroup  MuscleGroup
+  targetMuscle String
+  equipment    String
+  difficulty   Difficulty
+  instructions String
+  createdAt    DateTime    @default(now())
+
+  workoutExercises WorkoutExercise[]
+
+  @@map("exercises")
+}
+
+// One exercise performed inside a workout (join model Workout <-> Exercise).
+// name + muscleGroup are copied in so the entry still makes sense even if it
+// came from the external API and has no catalogue record.
+model WorkoutExercise {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  workoutId   String      @db.ObjectId
+  workout     Workout     @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exerciseId  String?     @db.ObjectId
+  exercise    Exercise?   @relation(fields: [exerciseId], references: [id], onDelete: SetNull)
+  name        String
+  muscleGroup MuscleGroup
+  sets        Int?
+  reps        Int?
+  weightKg    Float?
+  durationMin Int?
+  order       Int         @default(0)
+  createdAt   DateTime    @default(now())
+
+  @@index([workoutId])
+  @@map("workout_exercises")
+}
+
+model Meal {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mealType  MealType
+  foodName  String
+  calories  Int
+  protein   Float    @default(0) // grams
+  carbs     Float    @default(0) // grams
+  fats      Float    @default(0) // grams
+  date      DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, date])
+  @@map("meals")
+}
+
+// Body measurements on a given day (all lengths in cm)
+model Progress {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      DateTime
+  weight    Float
+  waist     Float?
+  chest     Float?
+  arm       Float?
+  hip       Float?
+  bodyFat   Float? // percentage
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, date])
+  @@map("progress")
+}
+
+model Goal {
+  id              String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String      @db.ObjectId
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  goalType        FitnessGoal
+  title           String
+  startWeight     Float? // user's weight when the goal was created
+  targetWeight    Float?
+  targetDate      DateTime
+  currentProgress Float       @default(0) // 0-100, used for non-weight goals
+  status          GoalStatus  @default(ACTIVE)
+  completedAt     DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([userId, status])
+  @@map("goals")
+}
+
+// Achievement definitions (e.g. "7-day streak"). Kept in sync from code.
+model Achievement {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  code        String   @unique
+  title       String
+  description String
+  icon        String
+  target      Int
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  unlockedBy UserAchievement[]
+
+  @@map("achievements")
+}
+
+// Which user unlocked which achievement, and when
+model UserAchievement {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String      @db.ObjectId
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievementId String      @db.ObjectId
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  unlockedAt    DateTime    @default(now())
+
+  @@unique([userId, achievementId])
+  @@map("user_achievements")
+}

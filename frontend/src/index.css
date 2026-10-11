@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+/* ---------- Design tokens ---------- */
+@theme {
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-ink: #14221c;          /* main text */
+  --color-ink-soft: #4d5e56;     /* secondary text */
+  --color-ink-faint: #7d8c85;    /* hints */
+  --color-mist: #f2f6f4;         /* page background */
+  --color-line: #dde6e1;         /* borders */
+
+  --color-fern-50: #ecf8f2;      /* green: workouts, primary actions */
+  --color-fern-100: #d2efe1;
+  --color-fern-200: #a6dfc3;
+  --color-fern-500: #1f9d6b;
+  --color-fern-600: #16825a;
+  --color-fern-700: #116647;
+
+  --color-tide-50: #edf3fe;      /* blue: nutrition, info */
+  --color-tide-100: #d6e4fd;
+  --color-tide-500: #2f6fde;
+  --color-tide-600: #2358bb;
+
+  --color-ember-50: #fdf1e8;     /* orange: calories burned, streaks */
+  --color-ember-500: #e3772e;
+  --color-sun-500: #d99a0b;      /* warnings */
+  --color-rose-50: #fdeeee;      /* errors */
+  --color-rose-500: #d64545;
+  --color-rose-600: #b93434;
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-mist font-sans text-ink antialiased;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  h1, h2, h3 { @apply font-display text-ink; letter-spacing: -0.01em; }
+  :focus-visible { outline: 2px solid var(--color-tide-500); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+}
+
+/* "btn" and "btn-sm" are utilities so other classes can @apply them */
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold
+    transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-60;
+}
+@utility btn-sm {
+  @apply px-3 py-1.5 text-[13px];
+}
+
+/* ---------- Reusable component classes ---------- */
+@layer components {
+  .btn-primary { @apply btn bg-fern-500 text-white hover:bg-fern-600; }
+  .btn-secondary { @apply btn border border-line bg-white text-ink hover:border-fern-200 hover:bg-fern-50; }
+  .btn-ghost { @apply btn text-ink-soft hover:bg-mist hover:text-ink; }
+  .btn-danger { @apply btn bg-rose-500 text-white hover:bg-rose-600; }
+  .btn-icon { @apply inline-flex h-9 w-9 items-center justify-center rounded-lg text-ink-soft transition-colors hover:bg-mist hover:text-ink; }
+
+  .input {
+    @apply w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm text-ink placeholder:text-ink-faint
+      transition-colors focus:border-tide-500 focus:outline-none focus:ring-2 focus:ring-tide-100;
+  }
+  .input[aria-invalid="true"] { @apply border-rose-500 focus:ring-rose-50; }
+  .label { @apply mb-1.5 block text-[13px] font-semibold text-ink; }
+
+  .panel { @apply rounded-2xl border border-line bg-white; }
+  .chip { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold; }
+}

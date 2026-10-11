@@ -1,0 +1,116 @@
+// Built-in exercise catalogue.
+// Seeded into the "exercises" collection. The exercise library uses it
+// when no external API key is configured or the external API is unavailable.
+// Equipment labels match the normalised labels produced from the external API.
+
+module.exports = [
+  // ---------- Chest ----------
+  { name: 'Push-up', muscleGroup: 'CHEST', targetMuscle: 'Chest', equipment: 'Body weight', difficulty: 'BEGINNER',
+    instructions: 'Start in a high plank with hands slightly wider than your shoulders. Lower your chest until it is just above the floor, keeping your body in a straight line. Push back up until your arms are straight.' },
+  { name: 'Barbell bench press', muscleGroup: 'CHEST', targetMuscle: 'Chest', equipment: 'Barbell', difficulty: 'INTERMEDIATE',
+    instructions: 'Lie on a flat bench with your eyes under the bar. Grip slightly wider than shoulder width, unrack and lower the bar to your mid chest. Press it back up while keeping your feet flat and shoulder blades pulled together.' },
+  { name: 'Incline dumbbell press', muscleGroup: 'CHEST', targetMuscle: 'Upper chest', equipment: 'Dumbbell', difficulty: 'INTERMEDIATE',
+    instructions: 'Set a bench to 30-45 degrees. Hold the dumbbells at chest level with palms facing forward. Press up until your arms are extended, then lower slowly to the starting position.' },
+  { name: 'Dumbbell fly', muscleGroup: 'CHEST', targetMuscle: 'Chest', equipment: 'Dumbbell', difficulty: 'BEGINNER',
+    instructions: 'Lie on a flat bench holding dumbbells above your chest with a slight bend in the elbows. Open your arms in a wide arc until you feel a stretch across the chest, then bring the weights back together.' },
+  { name: 'Cable crossover', muscleGroup: 'CHEST', targetMuscle: 'Lower chest', equipment: 'Cable', difficulty: 'INTERMEDIATE',
+    instructions: 'Set both pulleys high and hold a handle in each hand. Step forward, lean slightly and bring the handles down and together in front of your hips. Return slowly with control.' },
+  { name: 'Chest dip', muscleGroup: 'CHEST', targetMuscle: 'Lower chest', equipment: 'Body weight', difficulty: 'EXPERT',
+    instructions: 'Support yourself on parallel bars with arms straight. Lean your torso forward and lower yourself until your shoulders are just below your elbows. Press back up without locking your elbows hard.' },
+
+  // ---------- Back ----------
+  { name: 'Pull-up', muscleGroup: 'BACK', targetMuscle: 'Lats', equipment: 'Body weight', difficulty: 'INTERMEDIATE',
+    instructions: 'Hang from a bar with an overhand grip slightly wider than your shoulders. Pull your chest towards the bar by driving your elbows down. Lower yourself until your arms are fully straight.' },
+  { name: 'Bent-over barbell row', muscleGroup: 'BACK', targetMuscle: 'Middle back', equipment: 'Barbell', difficulty: 'INTERMEDIATE',
+    instructions: 'Hinge at the hips with a flat back and hold the bar at arm length. Row the bar to your lower ribs, squeezing your shoulder blades together. Lower it with control.' },
+  { name: 'Lat pulldown', muscleGroup: 'BACK', targetMuscle: 'Lats', equipment: 'Machine', difficulty: 'BEGINNER',
+    instructions: 'Sit at the machine with thighs under the pads and grip the bar wide. Pull the bar to your upper chest while keeping your torso still. Let the bar rise slowly until your arms are straight.' },
+  { name: 'Seated cable row', muscleGroup: 'BACK', targetMuscle: 'Middle back', equipment: 'Cable', difficulty: 'BEGINNER',
+    instructions: 'Sit with feet on the platform and knees slightly bent. Pull the handle to your stomach, keeping your back upright and elbows close to your body. Extend your arms again slowly.' },
+  { name: 'Deadlift', muscleGroup: 'BACK', targetMuscle: 'Lower back', equipment: 'Barbell', difficulty: 'EXPERT',
+    instructions: 'Stand with the bar over your mid foot. Hinge down and grip the bar, keep your back flat and chest up. Drive through your legs to stand tall, then lower the bar by pushing your hips back.' },
+  { name: 'Superman hold', muscleGroup: 'BACK', targetMuscle: 'Lower back', equipment: 'Body weight', difficulty: 'BEGINNER',
+    instructions: 'Lie face down with arms extended in front. Lift your arms, chest and legs a few centimetres off the floor at the same time. Hold for 2-3 seconds and lower slowly.' },
+
+  // ---------- Legs ----------
+  { name: 'Bodyweight squat', muscleGroup: 'LEGS', targetMuscle: 'Quadriceps', equipment: 'Body weight', difficulty: 'BEGINNER',
+    instructions: 'Stand with feet shoulder width apart. Push your hips back and bend your knees until your thighs are parallel to the floor. Stand back up by driving through your heels.' },
+  { name: 'Barbell back squat', muscleGroup: 'LEGS', targetMuscle: 'Quadriceps', equipment: 'Barbell', difficulty: 'INTERMEDIATE',
+    instructions: 'Rest the bar across your upper back and step out of the rack. Brace your core and squat down until your hips are at or below knee height. Drive up while keeping your chest tall.' },
+  { name: 'Walking lunge', muscleGroup: 'LEGS', targetMuscle: 'Quadriceps', equipment: 'Dumbbell', difficulty: 'BEGINNER',
+    instructions: 'Hold dumbbells at your sides. Step forward and lower until both knees are bent at about 90 degrees. Push off the front foot and bring the back leg forward into the next step.' },
+  { name: 'Romanian deadlift', muscleGroup: 'LEGS', targetMuscle: 'Hamstrings', equipment: 'Barbell', difficulty: 'INTERMEDIATE',
+    instructions: 'Hold the bar at hip height with soft knees. Push your hips back and slide the bar down your thighs until you feel a hamstring stretch. Squeeze your glutes to return to standing.' },
+  { name: 'Leg press', muscleGroup: 'LEGS', targetMuscle: 'Quadriceps', equipment: 'Machine', difficulty: 'BEGINNER',
+    instructions: 'Sit in the machine with feet hip width apart on the platform. Release the safety and lower the platform until your knees reach about 90 degrees. Press back up without locking your knees.' },
+  { name: 'Glute bridge', muscleGroup: 'LEGS', targetMuscle: 'Glutes', equipment: 'Body weight', difficulty: 'BEGINNER',
+    instructions: 'Lie on your back with knees bent and feet flat. Drive through your heels to lift your hips until your body forms a straight line from shoulders to knees. Pause, then lower.' },
+  { name: 'Standing calf raise', muscleGroup: 'LEGS', targetMuscle: 'Calves', equipment: 'Machine', difficulty: 'BEGINNER',
+    instructions: 'Stand with the balls of your feet on the platform and heels hanging off. Rise up onto your toes as high as possible, pause, then lower your heels below the platform.' },
+  { name: 'Bulgarian split squat', muscleGroup: 'LEGS', targetMuscle: 'Quadriceps', equipment: 'Dumbbell', difficulty: 'INTERMEDIATE',
+    instructions: 'Stand in front of a bench and place the top of your rear foot on it. Lower your back knee towards the floor while keeping your front knee over your ankle. Push through the front heel to rise.' },
+
+  // ---------- Shoulders ----------
+  { name: 'Overhead press', muscleGroup: 'SHOULDERS', targetMuscle: 'Front delts', equipment: 'Barbell', difficulty: 'INTERMEDIATE',
+    instructions: 'Hold the bar at shoulder height with hands just outside your shoulders. Brace your core and press the bar straight overhead. Lower it back to your collarbone with control.' },
+  { name: 'Dumbbell lateral raise', muscleGroup: 'SHOULDERS', targetMuscle: 'Side delts', equipment: 'Dumbbell', difficulty: 'BEGINNER',
+    instructions: 'Stand holding light dumbbells at your sides. Raise your arms out to the sides until they are level with your shoulders, leading with the elbows. Lower slowly.' },
+  { name: 'Face pull', muscleGroup: 'SHOULDERS', targetMuscle: 'Rear delts', equipment: 'Cable', difficulty: 'BEGINNER',
+    instructions: 'Attach a rope to a cable at face height. Pull the rope towards your face while separating the ends and pointing your elbows out. Squeeze your upper back, then return.' },
+  { name: 'Arnold press', muscleGroup: 'SHOULDERS', targetMuscle: 'Front delts', equipment: 'Dumbbell', difficulty: 'INTERMEDIATE',
+    instructions: 'Start with dumbbells at chin height and palms facing you. Press up while rotating your palms to face forward at the top. Reverse the movement on the way down.' },
+  { name: 'Pike push-up', muscleGroup: 'SHOULDERS', targetMuscle: 'Front delts', equipment: 'Body weight', difficulty: 'INTERMEDIATE',
+    instructions: 'Start in a downward dog position with hips high. Bend your elbows to lower the top of your head towards the floor between your hands. Press back up.' },
+  { name: 'Band pull-apart', muscleGroup: 'SHOULDERS', targetMuscle: 'Rear delts', equipment: 'Bands', difficulty: 'BEGINNER',
+    instructions: 'Hold a resistance band in front of you at shoulder height with straight arms. Pull the band apart until it touches your chest, squeezing your shoulder blades. Return slowly.' },
+
+  // ---------- Arms ----------
+  { name: 'Barbell curl', muscleGroup: 'ARMS', targetMuscle: 'Biceps', equipment: 'Barbell', difficulty: 'BEGINNER',
+    instructions: 'Stand holding the bar with an underhand grip at shoulder width. Curl the bar towards your shoulders while keeping your elbows at your sides. Lower it fully.' },
+  { name: 'Hammer curl', muscleGroup: 'ARMS', targetMuscle: 'Biceps', equipment: 'Dumbbell', difficulty: 'BEGINNER',
+    instructions: 'Hold dumbbells at your sides with palms facing each other. Curl the weights up without rotating your wrists. Lower slowly to the start.' },
+  { name: 'Triceps rope pushdown', muscleGroup: 'ARMS', targetMuscle: 'Triceps', equipment: 'Cable', difficulty: 'BEGINNER',
+    instructions: 'Attach a rope to a high pulley. Keep your elbows tucked and push the rope down until your arms are straight, spreading the ends at the bottom. Let it rise to chest height.' },
+  { name: 'Close-grip bench press', muscleGroup: 'ARMS', targetMuscle: 'Triceps', equipment: 'Barbell', difficulty: 'INTERMEDIATE',
+    instructions: 'Lie on a bench and grip the bar at shoulder width. Lower it to your lower chest with elbows close to your body. Press back up by straightening your arms.' },
+  { name: 'Bench dip', muscleGroup: 'ARMS', targetMuscle: 'Triceps', equipment: 'Body weight', difficulty: 'BEGINNER',
+    instructions: 'Place your hands on the edge of a bench behind you with legs extended. Bend your elbows to lower your hips towards the floor, then press back up.' },
+  { name: 'Concentration curl', muscleGroup: 'ARMS', targetMuscle: 'Biceps', equipment: 'Dumbbell', difficulty: 'BEGINNER',
+    instructions: 'Sit on a bench and rest the back of your upper arm against your inner thigh. Curl the dumbbell towards your shoulder, pause, and lower slowly.' },
+
+  // ---------- Core ----------
+  { name: 'Plank', muscleGroup: 'CORE', targetMuscle: 'Abdominals', equipment: 'Body weight', difficulty: 'BEGINNER',
+    instructions: 'Rest on your forearms and toes with elbows under your shoulders. Keep your body in a straight line from head to heels and brace your stomach. Hold for the set time.' },
+  { name: 'Dead bug', muscleGroup: 'CORE', targetMuscle: 'Abdominals', equipment: 'Body weight', difficulty: 'BEGINNER',
+    instructions: 'Lie on your back with arms pointing up and knees bent at 90 degrees. Slowly extend the opposite arm and leg while pressing your lower back into the floor. Return and switch sides.' },
+  { name: 'Hanging leg raise', muscleGroup: 'CORE', targetMuscle: 'Lower abs', equipment: 'Body weight', difficulty: 'EXPERT',
+    instructions: 'Hang from a pull-up bar with straight arms. Raise your legs in front of you until they are parallel to the floor, avoiding swinging. Lower them slowly.' },
+  { name: 'Russian twist', muscleGroup: 'CORE', targetMuscle: 'Obliques', equipment: 'Medicine ball', difficulty: 'BEGINNER',
+    instructions: 'Sit with knees bent and lean back slightly, holding a ball at your chest. Rotate your torso to touch the ball beside one hip, then the other. Keep your chest lifted.' },
+  { name: 'Bicycle crunch', muscleGroup: 'CORE', targetMuscle: 'Obliques', equipment: 'Body weight', difficulty: 'BEGINNER',
+    instructions: 'Lie on your back with hands behind your head. Bring one knee in while rotating the opposite elbow towards it, then switch sides in a pedalling motion.' },
+  { name: 'Ab wheel rollout', muscleGroup: 'CORE', targetMuscle: 'Abdominals', equipment: 'Other', difficulty: 'INTERMEDIATE',
+    instructions: 'Kneel and hold the ab wheel under your shoulders. Roll it forward slowly, keeping your core tight and back flat, as far as you can control. Pull it back to the start.' },
+
+  // ---------- Cardio ----------
+  { name: 'Brisk walking', muscleGroup: 'CARDIO', targetMuscle: 'Cardiovascular', equipment: 'Body weight', difficulty: 'BEGINNER',
+    instructions: 'Walk at a pace where you can talk but not sing. Swing your arms naturally and keep a tall posture. Aim for 30 minutes or more.' },
+  { name: 'Running', muscleGroup: 'CARDIO', targetMuscle: 'Cardiovascular', equipment: 'Body weight', difficulty: 'BEGINNER',
+    instructions: 'Start with a 5 minute easy jog to warm up. Run at a steady, comfortable pace with relaxed shoulders and short strides. Finish with a slow walk to cool down.' },
+  { name: 'Jump rope', muscleGroup: 'CARDIO', targetMuscle: 'Cardiovascular', equipment: 'Other', difficulty: 'BEGINNER',
+    instructions: 'Hold the handles at hip height and turn the rope with your wrists. Jump just high enough to clear it, landing softly on the balls of your feet. Work in rounds with short rests.' },
+  { name: 'Stationary cycling', muscleGroup: 'CARDIO', targetMuscle: 'Cardiovascular', equipment: 'Machine', difficulty: 'BEGINNER',
+    instructions: 'Adjust the seat so your knee is slightly bent at the bottom of the pedal stroke. Pedal at a steady pace, adding resistance for harder intervals.' },
+  { name: 'Rowing machine', muscleGroup: 'CARDIO', targetMuscle: 'Cardiovascular', equipment: 'Machine', difficulty: 'INTERMEDIATE',
+    instructions: 'Push with your legs first, then lean back slightly and pull the handle to your lower ribs. Return in reverse order: arms, body, then legs.' },
+  { name: 'Burpee', muscleGroup: 'CARDIO', targetMuscle: 'Full body', equipment: 'Body weight', difficulty: 'INTERMEDIATE',
+    instructions: 'From standing, squat and place your hands on the floor. Jump your feet back to a plank, do a push-up, jump your feet forward and leap up with arms overhead.' },
+  { name: 'Mountain climber', muscleGroup: 'CARDIO', targetMuscle: 'Full body', equipment: 'Body weight', difficulty: 'BEGINNER',
+    instructions: 'Start in a high plank. Drive one knee towards your chest, then quickly switch legs as if running in place. Keep your hips level.' },
+
+  // ---------- Full body ----------
+  { name: 'Kettlebell swing', muscleGroup: 'FULL_BODY', targetMuscle: 'Glutes', equipment: 'Kettlebells', difficulty: 'INTERMEDIATE',
+    instructions: 'Stand with feet wider than hips and hinge to grip the kettlebell. Hike it back between your legs, then snap your hips forward to swing it to chest height. Let it fall back into the next rep.' },
+  { name: 'Dumbbell thruster', muscleGroup: 'FULL_BODY', targetMuscle: 'Quadriceps', equipment: 'Dumbbell', difficulty: 'INTERMEDIATE',
+    instructions: 'Hold dumbbells at your shoulders and squat down. As you stand, use the momentum to press the dumbbells overhead. Lower them to your shoulders for the next squat.' },
+];

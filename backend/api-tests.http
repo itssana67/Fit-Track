@@ -1,0 +1,104 @@
+### FitTrack API tests
+### Use with the VS Code "REST Client" extension (click "Send Request" above each block).
+### Log in first; REST Client keeps the auth cookie for the following requests.
+
+@base = http://localhost:5000/api
+
+### Health check
+GET {{base}}/health
+
+### Register
+POST {{base}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "password": "Test@1234",
+  "age": 22,
+  "gender": "FEMALE",
+  "heightCm": 162,
+  "weightKg": 60,
+  "activityLevel": "LIGHT",
+  "fitnessGoal": "GAIN_MUSCLE"
+}
+
+### Login (demo account from the seed script)
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{ "email": "demo@fittrack.app", "password": "Demo@1234" }
+
+### Current user
+GET {{base}}/auth/me
+
+### Dashboard
+GET {{base}}/dashboard
+
+### List workouts
+GET {{base}}/workouts
+
+### Create workout with exercises
+POST {{base}}/workouts
+Content-Type: application/json
+
+{
+  "name": "Upper body",
+  "type": "STRENGTH",
+  "durationMin": 45,
+  "date": "2026-09-29",
+  "caloriesBurned": 280,
+  "notes": "Created from api-tests.http",
+  "exercises": [
+    { "name": "Push-up", "muscleGroup": "CHEST", "sets": 3, "reps": 15 },
+    { "name": "Pull-up", "muscleGroup": "BACK", "sets": 3, "reps": 8 }
+  ]
+}
+
+### Mark a workout complete (replace the id)
+PATCH {{base}}/workouts/REPLACE_WITH_WORKOUT_ID/complete
+Content-Type: application/json
+
+{ "completed": true }
+
+### Meals for a day + daily summary
+GET {{base}}/meals?date=2026-09-29
+
+###
+GET {{base}}/meals/summary?date=2026-09-29
+
+### Add meal
+POST {{base}}/meals
+Content-Type: application/json
+
+{ "mealType": "SNACK", "foodName": "Banana", "calories": 105, "protein": 1.3, "carbs": 27, "fats": 0.4, "date": "2026-09-29" }
+
+### Progress
+GET {{base}}/progress
+
+###
+POST {{base}}/progress
+Content-Type: application/json
+
+{ "date": "2026-09-29", "weight": 78.1, "waist": 87.5, "bodyFat": 21.2 }
+
+### Goals
+GET {{base}}/goals
+
+###
+POST {{base}}/goals
+Content-Type: application/json
+
+{ "goalType": "LOSE_WEIGHT", "title": "Reach 76 kg", "targetWeight": 76, "targetDate": "2026-12-31" }
+
+### Exercise library (external API through the backend)
+GET {{base}}/exercises?muscle=CHEST&equipment=Dumbbell
+
+### Recommendations and achievements
+GET {{base}}/recommendations
+
+###
+GET {{base}}/achievements
+
+### Logout
+POST {{base}}/auth/logout

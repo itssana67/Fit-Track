@@ -1,0 +1,16 @@
+{
+  "name": "fittrack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FitTrack - full-stack fitness tracker (React + Express + Prisma + MongoDB)",
+  "scripts": {
+    "install:all": "npm install && npm install --prefix backend && npm install --prefix frontend",
+    "setup:db": "npm run setup --prefix backend",
+    "dev": "concurrently -n api,web -c green,blue \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "build": "npm run build --prefix frontend",
+    "start": "npm start --prefix backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
