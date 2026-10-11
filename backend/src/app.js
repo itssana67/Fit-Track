@@ -1,5 +1,4 @@
 // Builds the Express application (middleware + routes).
-// Kept separate from server.js so it can be imported by tests.
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -15,14 +14,18 @@ const app = express();
 // Security headers
 app.use(helmet());
 
-// CORS: only the frontend URL(s) from CLIENT_URL may call the API.
-// credentials: true lets the browser send the auth cookie.
+// CORS: allow configured frontend origins and credentials.
 app.use(
   cors({
     origin(origin, callback) {
-      // Requests without an Origin (Postman, curl, server-to-server) are allowed
-      if (!origin || env.clientUrls.includes(origin)) return callback(null, true);
-      return callback(new ApiError(403, `Origin ${origin} is not allowed by CORS`));
+      // Allow requests without an Origin (such as curl or Postman).
+      if (!origin || env.clientUrls.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(
+        new ApiError(403, `Origin ${origin} is not allowed by CORS`)
+      );
     },
     credentials: true,
   })
@@ -30,14 +33,31 @@ app.use(
 
 app.use(express.json({ limit: '100kb' }));
 app.use(cookieParser());
-if (!env.isProd) app.use(morgan('dev')); // request logging during development
 
-app.use('/api', routes);
+if (!env.isProd) {
+  app.use(morgan('dev'));
+}
 
-app.get('/', (req, res) => {
-  res.json({ message: 'FitTrack API is running. Endpoints are under /api' });
+// Health check: lets the frontend verify the API is reachable.
+app.get('/api', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'FitTrack API is running',
+  });
 });
 
+// Application API routes
+app.use('/api', routes);
+
+// Root health check
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'FitTrack API is running. Endpoints are under /api',
+  });
+});
+
+// Error handling
 app.use(notFound);
 app.use(errorHandler);
 
